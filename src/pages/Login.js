@@ -5,6 +5,8 @@ import "adminbsb-materialdesign/plugins/node-waves/waves.css";
 import "adminbsb-materialdesign/plugins/animate-css/animate.css";
 import "adminbsb-materialdesign/css/style.css";
 import AuthHandler from "../utils/AuthHandler";
+import Config from "../utils/Config";
+import { Navigate } from "react-router-dom";
 
 class Login extends React.Component {
   state = {
@@ -41,6 +43,7 @@ class Login extends React.Component {
       this.setState({ loginStatus: 4 });
     } else {
       this.setState({ loginStatus: 3 });
+      window.location = Config.homeUrl;
     }
   };
 
@@ -69,6 +72,10 @@ class Login extends React.Component {
   };
 
   render() {
+    if (AuthHandler.loggedIn()) {
+      return <Navigate to={Config.homeUrl} />;
+    }
+
     document.body.className = "login-page";
 
     return (
