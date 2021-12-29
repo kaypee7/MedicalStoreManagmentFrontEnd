@@ -1,12 +1,8 @@
 import React from "react";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import AuthHandler from "./AuthHandler";
 
-export var PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      AuthHandler.loggedIn() ? <component {...props} /> : <Navigate to="/" />
-    }
-  />
-);
+export const PrivateRoute = () => {
+  const auth = AuthHandler.loggedIn();
+  return auth ? <Outlet /> : <Navigate to="/" />;
+};
