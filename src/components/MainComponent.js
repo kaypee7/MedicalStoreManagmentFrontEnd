@@ -1,9 +1,7 @@
 import React from "react";
 import GoogleFontLoader from "react-google-font-loader";
-import HomeComponent from "./HomeComponent";
 import Navbar from "./Navbar";
 import Overlay from "./Overlay";
-import PageLoader from "./PageLoader";
 import SideBar from "./SideBar";
 import "adminbsb-materialdesign/css/themes/all-themes.css";
 
@@ -11,18 +9,33 @@ class MainComponent extends React.Component {
   state = {
     bodyClass: "theme-red ls-closed",
     displayOverlay: "none",
+    width: window.screen.width,
   };
   onBarClick = () => {
-    if (this.state.bodyClass == "theme-red ls-closed overlay-open") {
+    if (this.state.bodyClass === "theme-red ls-closed overlay-open") {
       this.setState({ bodyClass: "theme-red ls-closed overlay-open" });
       this.setState({ displayOverlay: "none" });
-    } else if (this.state.bodyClass == "theme-red ls-closed") {
+    } else if (this.state.bodyClass === "theme-red ls-closed") {
       this.setState({ bodyClass: "theme-red ls-closed overlay-open" });
       this.setState({ displayOverlay: "block" });
     }
   };
+
+  onscreenresize = () => {
+    console.log(window.screen.width);
+    this.setState({ width: window.screen.width });
+  };
+
+  componentWillMount() {
+    window.addEventListener("resize", this.onscreenresize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.onscreenresize);
+  }
+
   render() {
-    if (window.screen.width > 1150) {
+    if (this.state.width > 1150) {
       document.getElementById("root").className = "theme-red";
     } else {
       document.getElementById("root").className = this.state.bodyClass;
@@ -48,8 +61,8 @@ class MainComponent extends React.Component {
         />
         <Overlay display={this.state.displayOverlay} />
         <Navbar onBarClick={this.onBarClick} />
-        <SideBar />
-        <HomeComponent />
+        <SideBar activepage={this.props.activepage} />
+        <>{this.props.page}</>
       </React.Fragment>
     );
   }

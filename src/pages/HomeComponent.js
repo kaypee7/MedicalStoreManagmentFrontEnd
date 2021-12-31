@@ -1,4 +1,5 @@
 import React from "react";
+import "adminbsb-materialdesign/css/themes/all-themes.css";
 
 class HomeComponent extends React.Component {
   render() {
